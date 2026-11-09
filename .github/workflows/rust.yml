@@ -1,0 +1,24 @@
+name: Build zvukd
+
+on:
+  workflow_dispatch: # позволяет запускать сборку вручную
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build with Docker
+        run: |
+          # Устанавливаем Docker (в ubuntu-latest он уже есть, но на всякий случай)
+          docker --version
+          # Запускаем ваш скрипт сборки
+          sh scripts/build.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zvukd-aarch64
+          path: dist/zvukd
