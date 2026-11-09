@@ -1,7 +1,7 @@
 name: Build zvukd
 
 on:
-  workflow_dispatch: # позволяет запускать сборку вручную
+  workflow_dispatch:
 
 jobs:
   build:
@@ -10,11 +10,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Build with Docker
         run: |
-          # Устанавливаем Docker (в ubuntu-latest он уже есть, но на всякий случай)
           docker --version
-          # Запускаем ваш скрипт сборки
           sh scripts/build.sh
 
       - name: Upload artifact
